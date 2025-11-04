@@ -27,9 +27,9 @@ EXPORT_SCRIPT := scripts/export_pg_yelp_gold.py
 # ------------------- 常用一键动作 -------------------
 ## ui: 起容器 + 自动登录（打开浏览器）
 ui: up
-	@chmod +x scripts/mb_one_click_login.py
-	@MB_BASE="$(MB_BASE)" MB_EMAIL="$(MB_EMAIL)" MB_PASS="$(MB_PASS)" \
-		python3 scripts/mb_one_click_login.py
+	@chmod +x scripts/mb_login_with_optional_restore.py
+	@MB_BASE="$(MB_BASE)" MB_EMAIL="$(MB_EMAIL)" MB_PASS="$(MB_PASS)" MB_DS_NAME="$(PG_DB)" \
+		python3 scripts/mb_login_with_optional_restore.py
 
 ## up: 启动核心服务（Postgres/Metabase/Jupyter/Nginx）
 up:
@@ -37,10 +37,11 @@ up:
 	@$(COMPOSE) ps
 
 ## mb-reset-seed: 重置 Metabase 实例并按 .env 播种（只注册 yelp_gold）
+.PHONY: mb-reset-seed
 mb-reset-seed:
-	@MB_BASE="$(MB_BASE)" MB_EMAIL="$(MB_EMAIL)" MB_PASS="$(MB_PASS)" \
-	  PG_HOST="$(PG_HOST)" PG_PORT="$(PG_PORT)" PG_USER="$(PG_USER)" PG_PASSWORD="$(PG_PASSWORD)" PG_DB="$(PG_DB)" PG_SCHEMA="$(PG_SCHEMA)" \
-	  python3 scripts/mb_reset_and_seed.py
+	@set -e; \
+	set -a; [ -f .env ] && . ./.env; set +a; \
+	python3 scripts/mb_reset_and_seed.py
 
 ## mb-open: 仅自动登录（不重置）
 mb-open:
@@ -79,6 +80,17 @@ mb-health:
 	echo "==> Check Metabase health"; \
 	curl -sS "$(MB_BASE)/api/health" | jq -r .status | grep -q '^ok$$' \
 	  && echo "Metabase OK" || (echo "Metabase not healthy"; exit 1)
+
+
+# 导出/导入项目
+.PHONY: mb-export mb-import
+mb-export:
+	@MB_BASE="$(MB_BASE)" MB_EMAIL="$(MB_EMAIL)" MB_PASS="$(MB_PASS)" \
+	  python3 scripts/mb_export_content.py
+
+mb-import:
+	@MB_BASE="$(MB_BASE)" MB_EMAIL="$(MB_EMAIL)" MB_PASS="$(MB_PASS)" MB_DS_NAME="$(MB_DS_NAME)" \
+	  python3 scripts/mb_import_content.py
 
 # ------------------- 导出（CSV / SQL） -------------------
 export:

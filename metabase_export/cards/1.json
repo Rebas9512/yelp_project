@@ -1,0 +1,101 @@
+{
+  "description": null,
+  "archived": false,
+  "collection_position": null,
+  "table_id": null,
+  "result_metadata": [
+    {
+      "display_name": "count",
+      "field_ref": [
+        "field",
+        "count",
+        {
+          "base-type": "type/BigInteger"
+        }
+      ],
+      "name": "count",
+      "base_type": "type/BigInteger",
+      "effective_type": "type/BigInteger",
+      "semantic_type": "type/Quantity",
+      "fingerprint": {
+        "global": {
+          "distinct-count": 1,
+          "nil%": 0.0
+        },
+        "type": {
+          "type/Number": {
+            "min": 150346.0,
+            "q1": 150346.0,
+            "q3": 150346.0,
+            "max": 150346.0,
+            "sd": null,
+            "avg": 150346.0
+          }
+        }
+      }
+    }
+  ],
+  "creator": {
+    "email": "admin@yelp.local",
+    "first_name": "Admin",
+    "last_login": "2025-11-04T19:41:01.473327Z",
+    "is_qbnewb": false,
+    "is_superuser": true,
+    "id": 1,
+    "last_name": "User",
+    "date_joined": "2025-11-04T19:32:11.211854Z",
+    "common_name": "Admin User"
+  },
+  "initially_published_at": null,
+  "database_id": 2,
+  "enable_embedding": false,
+  "collection_id": 2,
+  "query_type": "native",
+  "name": "Business count",
+  "type": "question",
+  "creator_id": 1,
+  "updated_at": "2025-11-04T19:40:17.755108Z",
+  "made_public_by_id": null,
+  "embedding_params": null,
+  "cache_ttl": null,
+  "dataset_query": {
+    "database": 2,
+    "type": "native",
+    "native": {
+      "template-tags": {},
+      "query": "SELECT count(*) FROM yelp_gold.dim_business;"
+    }
+  },
+  "id": 1,
+  "parameter_mappings": [],
+  "display": "scalar",
+  "entity_id": "1VGAl8HkkJ2pMbB_mhPDa",
+  "collection_preview": true,
+  "last-edit-info": {
+    "id": 1,
+    "email": "admin@yelp.local",
+    "first_name": "Admin",
+    "last_name": "User",
+    "timestamp": "2025-11-04T19:32:18.528504Z"
+  },
+  "visualization_settings": {},
+  "collection": {
+    "authority_level": null,
+    "description": null,
+    "archived": false,
+    "slug": "imported",
+    "name": "Imported",
+    "personal_owner_id": null,
+    "type": null,
+    "id": 2,
+    "entity_id": "mWhHxdvv4ErxC2yS_svok",
+    "location": "/",
+    "namespace": null,
+    "created_at": "2025-11-04T19:32:18.367544Z"
+  },
+  "metabase_version": "v0.49.14 (3606ed3)",
+  "parameters": [],
+  "dataset": false,
+  "created_at": "2025-11-04T19:32:18.459701Z",
+  "public_uuid": null
+}

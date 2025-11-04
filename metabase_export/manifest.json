@@ -1,0 +1,49 @@
+{
+  "collections": [
+    {
+      "id": "root",
+      "name": "Our analytics"
+    },
+    {
+      "id": 1,
+      "name": "Admin User's Personal Collection"
+    },
+    {
+      "id": 2,
+      "name": "Imported"
+    },
+    {
+      "id": 3,
+      "name": "Yelp – Starter Cards"
+    }
+  ],
+  "cards": [
+    {
+      "id": 4,
+      "name": "Average Stars"
+    },
+    {
+      "id": 1,
+      "name": "Business count"
+    },
+    {
+      "id": 8,
+      "name": "Top Categories"
+    },
+    {
+      "id": 5,
+      "name": "Top Cities by Business"
+    },
+    {
+      "id": 2,
+      "name": "Total Businesses"
+    }
+  ],
+  "dashboards": [
+    {
+      "id": 1,
+      "name": "Yelp"
+    }
+  ],
+  "exported_at": 1762285261
+}

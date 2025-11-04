@@ -1,0 +1,501 @@
+{
+  "description": "\n\n[Imported]\n- Please add card “Business count” (new id: 1) manually.",
+  "archived": false,
+  "collection_position": null,
+  "dashcards": [
+    {
+      "size_x": 12,
+      "dashboard_tab_id": null,
+      "series": [],
+      "action_id": null,
+      "collection_authority_level": null,
+      "card": {
+        "description": null,
+        "archived": false,
+        "collection_position": null,
+        "table_id": null,
+        "result_metadata": [
+          {
+            "display_name": "cat",
+            "field_ref": [
+              "field",
+              "cat",
+              {
+                "base-type": "type/Text"
+              }
+            ],
+            "name": "cat",
+            "base_type": "type/Text",
+            "effective_type": "type/Text",
+            "semantic_type": null,
+            "fingerprint": {
+              "global": {
+                "distinct-count": 20,
+                "nil%": 0.0
+              },
+              "type": {
+                "type/Text": {
+                  "percent-json": 0.0,
+                  "percent-url": 0.0,
+                  "percent-email": 0.0,
+                  "percent-state": 0.0,
+                  "average-length": 12.15
+                }
+              }
+            }
+          },
+          {
+            "display_name": "business_cnt",
+            "field_ref": [
+              "field",
+              "business_cnt",
+              {
+                "base-type": "type/BigInteger"
+              }
+            ],
+            "name": "business_cnt",
+            "base_type": "type/BigInteger",
+            "effective_type": "type/BigInteger",
+            "semantic_type": null,
+            "fingerprint": {
+              "global": {
+                "distinct-count": 20,
+                "nil%": 0.0
+              },
+              "type": {
+                "type/Number": {
+                  "min": 5857.0,
+                  "q1": 6898.0,
+                  "q3": 13286.5,
+                  "max": 52268.0,
+                  "sd": 10886.059290259844,
+                  "avg": 13142.35
+                }
+              }
+            }
+          }
+        ],
+        "initially_published_at": null,
+        "can_write": true,
+        "database_id": 2,
+        "enable_embedding": false,
+        "collection_id": 3,
+        "query_type": "native",
+        "name": "Top Categories",
+        "type": "question",
+        "query_average_duration": 445,
+        "creator_id": 1,
+        "moderation_reviews": [],
+        "updated_at": "2025-11-04T19:40:12.236047Z",
+        "made_public_by_id": null,
+        "embedding_params": null,
+        "cache_ttl": null,
+        "dataset_query": {
+          "type": "native",
+          "database": 2,
+          "native": {
+            "query": "WITH cats AS (SELECT trim(regexp_split_to_table(categories, ',\\s*')) AS cat FROM yelp_gold.dim_business WHERE categories IS NOT NULL AND categories <> '') SELECT cat, COUNT(*) AS business_cnt FROM cats GROUP BY cat ORDER BY business_cnt DESC LIMIT 20;",
+            "template-tags": {}
+          }
+        },
+        "id": 8,
+        "parameter_mappings": [],
+        "display": "bar",
+        "entity_id": "7rL4ABO-37xO-r8bFRMS5",
+        "collection_preview": true,
+        "visualization_settings": {},
+        "metabase_version": "v0.49.14 (3606ed3)",
+        "parameters": [],
+        "dataset": false,
+        "created_at": "2025-11-04T19:35:46.866015Z",
+        "public_uuid": null
+      },
+      "updated_at": "2025-11-04T19:40:35.700122Z",
+      "col": 12,
+      "id": 2,
+      "parameter_mappings": [],
+      "card_id": 8,
+      "entity_id": "y7CMmw7iAI_rGDKtqooNN",
+      "visualization_settings": {},
+      "size_y": 6,
+      "dashboard_id": 1,
+      "created_at": "2025-11-04T19:36:55.381158Z",
+      "row": 0
+    },
+    {
+      "size_x": 12,
+      "dashboard_tab_id": null,
+      "series": [],
+      "action_id": null,
+      "collection_authority_level": null,
+      "card": {
+        "description": null,
+        "archived": false,
+        "collection_position": null,
+        "table_id": null,
+        "result_metadata": [
+          {
+            "display_name": "city",
+            "field_ref": [
+              "field",
+              "city",
+              {
+                "base-type": "type/Text"
+              }
+            ],
+            "name": "city",
+            "base_type": "type/Text",
+            "effective_type": "type/Text",
+            "semantic_type": "type/City",
+            "fingerprint": {
+              "global": {
+                "distinct-count": 10,
+                "nil%": 0.0
+              },
+              "type": {
+                "type/Text": {
+                  "percent-json": 0.0,
+                  "percent-url": 0.0,
+                  "percent-email": 0.0,
+                  "percent-state": 0.0,
+                  "average-length": 9.1
+                }
+              }
+            }
+          },
+          {
+            "display_name": "state",
+            "field_ref": [
+              "field",
+              "state",
+              {
+                "base-type": "type/Text"
+              }
+            ],
+            "name": "state",
+            "base_type": "type/Text",
+            "effective_type": "type/Text",
+            "semantic_type": null,
+            "fingerprint": {
+              "global": {
+                "distinct-count": 10,
+                "nil%": 0.0
+              },
+              "type": {
+                "type/Text": {
+                  "percent-json": 0.0,
+                  "percent-url": 0.0,
+                  "percent-email": 0.0,
+                  "percent-state": 0.9,
+                  "average-length": 2.0
+                }
+              }
+            }
+          },
+          {
+            "display_name": "business_cnt",
+            "field_ref": [
+              "field",
+              "business_cnt",
+              {
+                "base-type": "type/BigInteger"
+              }
+            ],
+            "name": "business_cnt",
+            "base_type": "type/BigInteger",
+            "effective_type": "type/BigInteger",
+            "semantic_type": null,
+            "fingerprint": {
+              "global": {
+                "distinct-count": 10,
+                "nil%": 0.0
+              },
+              "type": {
+                "type/Number": {
+                  "min": 3829.0,
+                  "q1": 5054.0,
+                  "q3": 9048.0,
+                  "max": 14567.0,
+                  "sd": 3092.971667075748,
+                  "avg": 7322.2
+                }
+              }
+            }
+          }
+        ],
+        "initially_published_at": null,
+        "can_write": true,
+        "database_id": 2,
+        "enable_embedding": false,
+        "collection_id": 3,
+        "query_type": "native",
+        "name": "Top Cities by Business",
+        "type": "question",
+        "query_average_duration": 86,
+        "creator_id": 1,
+        "moderation_reviews": [],
+        "updated_at": "2025-11-04T19:40:11.876842Z",
+        "made_public_by_id": null,
+        "embedding_params": null,
+        "cache_ttl": null,
+        "dataset_query": {
+          "type": "native",
+          "database": 2,
+          "native": {
+            "query": "SELECT city, state, COUNT(*) AS business_cnt FROM yelp_gold.dim_business GROUP BY city, state ORDER BY business_cnt DESC LIMIT 10;",
+            "template-tags": {}
+          }
+        },
+        "id": 5,
+        "parameter_mappings": [],
+        "display": "bar",
+        "entity_id": "Fy-kac9-rEmjHf6z_x3al",
+        "collection_preview": true,
+        "visualization_settings": {},
+        "metabase_version": "v0.49.14 (3606ed3)",
+        "parameters": [],
+        "dataset": false,
+        "created_at": "2025-11-04T19:35:46.172045Z",
+        "public_uuid": null
+      },
+      "updated_at": "2025-11-04T19:36:55.381158Z",
+      "col": 0,
+      "id": 3,
+      "parameter_mappings": [],
+      "card_id": 5,
+      "entity_id": "jweBRPFnM-6GlvxlVSt4o",
+      "visualization_settings": {},
+      "size_y": 6,
+      "dashboard_id": 1,
+      "created_at": "2025-11-04T19:36:55.381158Z",
+      "row": 0
+    },
+    {
+      "size_x": 6,
+      "dashboard_tab_id": null,
+      "series": [],
+      "action_id": null,
+      "collection_authority_level": null,
+      "card": {
+        "description": null,
+        "archived": false,
+        "collection_position": null,
+        "table_id": null,
+        "result_metadata": [
+          {
+            "display_name": "business_count",
+            "field_ref": [
+              "field",
+              "business_count",
+              {
+                "base-type": "type/BigInteger"
+              }
+            ],
+            "name": "business_count",
+            "base_type": "type/BigInteger",
+            "effective_type": "type/BigInteger",
+            "semantic_type": "type/Quantity",
+            "fingerprint": {
+              "global": {
+                "distinct-count": 1,
+                "nil%": 0.0
+              },
+              "type": {
+                "type/Number": {
+                  "min": 150346.0,
+                  "q1": 150346.0,
+                  "q3": 150346.0,
+                  "max": 150346.0,
+                  "sd": null,
+                  "avg": 150346.0
+                }
+              }
+            }
+          }
+        ],
+        "initially_published_at": null,
+        "can_write": true,
+        "database_id": 2,
+        "enable_embedding": false,
+        "collection_id": 3,
+        "query_type": "native",
+        "name": "Total Businesses",
+        "type": "question",
+        "query_average_duration": 33,
+        "creator_id": 1,
+        "moderation_reviews": [],
+        "updated_at": "2025-11-04T19:40:11.852838Z",
+        "made_public_by_id": null,
+        "embedding_params": null,
+        "cache_ttl": null,
+        "dataset_query": {
+          "type": "native",
+          "database": 2,
+          "native": {
+            "query": "SELECT COUNT(*) AS business_count FROM yelp_gold.dim_business;",
+            "template-tags": {}
+          }
+        },
+        "id": 2,
+        "parameter_mappings": [],
+        "display": "scalar",
+        "entity_id": "mXaplEjjkNMY5kl83Ti17",
+        "collection_preview": true,
+        "visualization_settings": {},
+        "metabase_version": "v0.49.14 (3606ed3)",
+        "parameters": [],
+        "dataset": false,
+        "created_at": "2025-11-04T19:35:45.886514Z",
+        "public_uuid": null
+      },
+      "updated_at": "2025-11-04T19:40:35.700122Z",
+      "col": 0,
+      "id": 4,
+      "parameter_mappings": [],
+      "card_id": 2,
+      "entity_id": "cIkUSNdMXuCVO6BcF562F",
+      "visualization_settings": {},
+      "size_y": 3,
+      "dashboard_id": 1,
+      "created_at": "2025-11-04T19:36:55.381158Z",
+      "row": 6
+    },
+    {
+      "size_x": 6,
+      "dashboard_tab_id": null,
+      "series": [],
+      "action_id": null,
+      "collection_authority_level": null,
+      "card": {
+        "description": null,
+        "archived": false,
+        "collection_position": null,
+        "table_id": null,
+        "result_metadata": [
+          {
+            "display_name": "avg_stars",
+            "field_ref": [
+              "field",
+              "avg_stars",
+              {
+                "base-type": "type/Decimal"
+              }
+            ],
+            "name": "avg_stars",
+            "base_type": "type/Decimal",
+            "effective_type": "type/Decimal",
+            "semantic_type": "type/Score",
+            "fingerprint": {
+              "global": {
+                "distinct-count": 1,
+                "nil%": 0.0
+              },
+              "type": {
+                "type/Number": {
+                  "min": 3.6,
+                  "q1": 3.6,
+                  "q3": 3.6,
+                  "max": 3.6,
+                  "sd": null,
+                  "avg": 3.6
+                }
+              }
+            }
+          }
+        ],
+        "initially_published_at": null,
+        "can_write": true,
+        "database_id": 2,
+        "enable_embedding": false,
+        "collection_id": 3,
+        "query_type": "native",
+        "name": "Average Stars",
+        "type": "question",
+        "query_average_duration": 38,
+        "creator_id": 1,
+        "moderation_reviews": [],
+        "updated_at": "2025-11-04T19:40:24.565345Z",
+        "made_public_by_id": null,
+        "embedding_params": null,
+        "cache_ttl": null,
+        "dataset_query": {
+          "type": "native",
+          "database": 2,
+          "native": {
+            "query": "SELECT ROUND(AVG(stars)::numeric, 2) AS avg_stars FROM yelp_gold.dim_business WHERE stars IS NOT NULL;",
+            "template-tags": {}
+          }
+        },
+        "id": 4,
+        "parameter_mappings": [],
+        "display": "scalar",
+        "entity_id": "7JXyK3fp6IPGjXppgSURu",
+        "collection_preview": true,
+        "visualization_settings": {},
+        "metabase_version": "v0.49.14 (3606ed3)",
+        "parameters": [],
+        "dataset": false,
+        "created_at": "2025-11-04T19:35:46.094317Z",
+        "public_uuid": null
+      },
+      "updated_at": "2025-11-04T19:40:35.700122Z",
+      "col": 6,
+      "id": 5,
+      "parameter_mappings": [],
+      "card_id": 4,
+      "entity_id": "Sbz8NjE4qhV74wN488Laz",
+      "visualization_settings": {},
+      "size_y": 3,
+      "dashboard_id": 1,
+      "created_at": "2025-11-04T19:40:35.700122Z",
+      "row": 6
+    }
+  ],
+  "param_values": null,
+  "initially_published_at": null,
+  "can_write": true,
+  "tabs": [],
+  "enable_embedding": false,
+  "collection_id": 2,
+  "show_in_getting_started": false,
+  "name": "Yelp",
+  "width": "fixed",
+  "caveats": null,
+  "collection_authority_level": null,
+  "creator_id": 1,
+  "updated_at": "2025-11-04T19:40:35.700122Z",
+  "made_public_by_id": null,
+  "embedding_params": null,
+  "cache_ttl": null,
+  "id": 1,
+  "position": null,
+  "entity_id": "gtHKVLttW6NsNiWZzKaK-",
+  "param_fields": null,
+  "last-edit-info": {
+    "id": 1,
+    "email": "admin@yelp.local",
+    "first_name": "Admin",
+    "last_name": "User",
+    "timestamp": "2025-11-04T19:40:35.752216Z"
+  },
+  "collection": {
+    "authority_level": null,
+    "description": null,
+    "archived": false,
+    "slug": "imported",
+    "name": "Imported",
+    "personal_owner_id": null,
+    "type": null,
+    "id": 2,
+    "entity_id": "mWhHxdvv4ErxC2yS_svok",
+    "location": "/",
+    "namespace": null,
+    "is_personal": false,
+    "created_at": "2025-11-04T19:32:18.367544Z"
+  },
+  "parameters": [],
+  "auto_apply_filters": true,
+  "created_at": "2025-11-04T19:32:18.669564Z",
+  "public_uuid": null,
+  "points_of_interest": null
+}

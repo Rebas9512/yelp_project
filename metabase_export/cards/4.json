@@ -1,0 +1,101 @@
+{
+  "description": null,
+  "archived": false,
+  "collection_position": null,
+  "table_id": null,
+  "result_metadata": [
+    {
+      "display_name": "avg_stars",
+      "field_ref": [
+        "field",
+        "avg_stars",
+        {
+          "base-type": "type/Decimal"
+        }
+      ],
+      "name": "avg_stars",
+      "base_type": "type/Decimal",
+      "effective_type": "type/Decimal",
+      "semantic_type": "type/Score",
+      "fingerprint": {
+        "global": {
+          "distinct-count": 1,
+          "nil%": 0.0
+        },
+        "type": {
+          "type/Number": {
+            "min": 3.6,
+            "q1": 3.6,
+            "q3": 3.6,
+            "max": 3.6,
+            "sd": null,
+            "avg": 3.6
+          }
+        }
+      }
+    }
+  ],
+  "creator": {
+    "email": "admin@yelp.local",
+    "first_name": "Admin",
+    "last_login": "2025-11-04T19:41:01.473327Z",
+    "is_qbnewb": false,
+    "is_superuser": true,
+    "id": 1,
+    "last_name": "User",
+    "date_joined": "2025-11-04T19:32:11.211854Z",
+    "common_name": "Admin User"
+  },
+  "initially_published_at": null,
+  "database_id": 2,
+  "enable_embedding": false,
+  "collection_id": 3,
+  "query_type": "native",
+  "name": "Average Stars",
+  "type": "question",
+  "creator_id": 1,
+  "updated_at": "2025-11-04T19:40:24.565345Z",
+  "made_public_by_id": null,
+  "embedding_params": null,
+  "cache_ttl": null,
+  "dataset_query": {
+    "type": "native",
+    "database": 2,
+    "native": {
+      "query": "SELECT ROUND(AVG(stars)::numeric, 2) AS avg_stars FROM yelp_gold.dim_business WHERE stars IS NOT NULL;",
+      "template-tags": {}
+    }
+  },
+  "id": 4,
+  "parameter_mappings": [],
+  "display": "scalar",
+  "entity_id": "7JXyK3fp6IPGjXppgSURu",
+  "collection_preview": true,
+  "last-edit-info": {
+    "id": 1,
+    "email": "admin@yelp.local",
+    "first_name": "Admin",
+    "last_name": "User",
+    "timestamp": "2025-11-04T19:35:46.098579Z"
+  },
+  "visualization_settings": {},
+  "collection": {
+    "authority_level": null,
+    "description": null,
+    "archived": false,
+    "slug": "yelp_%E2%80%93_starter_cards",
+    "name": "Yelp – Starter Cards",
+    "personal_owner_id": null,
+    "type": null,
+    "id": 3,
+    "entity_id": "eF_k5ZDc5LQhY4DRb44Kt",
+    "location": "/",
+    "namespace": null,
+    "created_at": "2025-11-04T19:35:45.521057Z"
+  },
+  "metabase_version": "v0.49.14 (3606ed3)",
+  "parameters": [],
+  "dataset": false,
+  "created_at": "2025-11-04T19:35:46.094317Z",
+  "public_uuid": null
+}

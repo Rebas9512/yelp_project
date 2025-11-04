@@ -1,0 +1,159 @@
+{
+  "description": null,
+  "archived": false,
+  "collection_position": null,
+  "table_id": null,
+  "result_metadata": [
+    {
+      "display_name": "city",
+      "field_ref": [
+        "field",
+        "city",
+        {
+          "base-type": "type/Text"
+        }
+      ],
+      "name": "city",
+      "base_type": "type/Text",
+      "effective_type": "type/Text",
+      "semantic_type": "type/City",
+      "fingerprint": {
+        "global": {
+          "distinct-count": 10,
+          "nil%": 0.0
+        },
+        "type": {
+          "type/Text": {
+            "percent-json": 0.0,
+            "percent-url": 0.0,
+            "percent-email": 0.0,
+            "percent-state": 0.0,
+            "average-length": 9.1
+          }
+        }
+      }
+    },
+    {
+      "display_name": "state",
+      "field_ref": [
+        "field",
+        "state",
+        {
+          "base-type": "type/Text"
+        }
+      ],
+      "name": "state",
+      "base_type": "type/Text",
+      "effective_type": "type/Text",
+      "semantic_type": null,
+      "fingerprint": {
+        "global": {
+          "distinct-count": 10,
+          "nil%": 0.0
+        },
+        "type": {
+          "type/Text": {
+            "percent-json": 0.0,
+            "percent-url": 0.0,
+            "percent-email": 0.0,
+            "percent-state": 0.9,
+            "average-length": 2.0
+          }
+        }
+      }
+    },
+    {
+      "display_name": "business_cnt",
+      "field_ref": [
+        "field",
+        "business_cnt",
+        {
+          "base-type": "type/BigInteger"
+        }
+      ],
+      "name": "business_cnt",
+      "base_type": "type/BigInteger",
+      "effective_type": "type/BigInteger",
+      "semantic_type": null,
+      "fingerprint": {
+        "global": {
+          "distinct-count": 10,
+          "nil%": 0.0
+        },
+        "type": {
+          "type/Number": {
+            "min": 3829.0,
+            "q1": 5054.0,
+            "q3": 9048.0,
+            "max": 14567.0,
+            "sd": 3092.971667075748,
+            "avg": 7322.2
+          }
+        }
+      }
+    }
+  ],
+  "creator": {
+    "email": "admin@yelp.local",
+    "first_name": "Admin",
+    "last_login": "2025-11-04T19:41:01.473327Z",
+    "is_qbnewb": false,
+    "is_superuser": true,
+    "id": 1,
+    "last_name": "User",
+    "date_joined": "2025-11-04T19:32:11.211854Z",
+    "common_name": "Admin User"
+  },
+  "initially_published_at": null,
+  "database_id": 2,
+  "enable_embedding": false,
+  "collection_id": 3,
+  "query_type": "native",
+  "name": "Top Cities by Business",
+  "type": "question",
+  "creator_id": 1,
+  "updated_at": "2025-11-04T19:40:11.876842Z",
+  "made_public_by_id": null,
+  "embedding_params": null,
+  "cache_ttl": null,
+  "dataset_query": {
+    "type": "native",
+    "database": 2,
+    "native": {
+      "query": "SELECT city, state, COUNT(*) AS business_cnt FROM yelp_gold.dim_business GROUP BY city, state ORDER BY business_cnt DESC LIMIT 10;",
+      "template-tags": {}
+    }
+  },
+  "id": 5,
+  "parameter_mappings": [],
+  "display": "bar",
+  "entity_id": "Fy-kac9-rEmjHf6z_x3al",
+  "collection_preview": true,
+  "last-edit-info": {
+    "id": 1,
+    "email": "admin@yelp.local",
+    "first_name": "Admin",
+    "last_name": "User",
+    "timestamp": "2025-11-04T19:35:46.175631Z"
+  },
+  "visualization_settings": {},
+  "collection": {
+    "authority_level": null,
+    "description": null,
+    "archived": false,
+    "slug": "yelp_%E2%80%93_starter_cards",
+    "name": "Yelp – Starter Cards",
+    "personal_owner_id": null,
+    "type": null,
+    "id": 3,
+    "entity_id": "eF_k5ZDc5LQhY4DRb44Kt",
+    "location": "/",
+    "namespace": null,
+    "created_at": "2025-11-04T19:35:45.521057Z"
+  },
+  "metabase_version": "v0.49.14 (3606ed3)",
+  "parameters": [],
+  "dataset": false,
+  "created_at": "2025-11-04T19:35:46.172045Z",
+  "public_uuid": null
+}

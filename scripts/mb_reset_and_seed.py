@@ -27,23 +27,34 @@ import json, os, sys, time, subprocess
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
 
-# --------- Config from env ---------
-MB_BASE   = os.getenv("MB_BASE", "http://localhost:3000").rstrip("/")
-MB_EMAIL  = os.getenv("MB_EMAIL", "admin@yelp.local")
-MB_PASS   = os.getenv("MB_PASS",  "Metabase!2025")
-MB_SITE   = os.getenv("MB_SITE_NAME", "Yelp BI")
+# --------- Config from env (robust) ---------
+def env(name, default):
+    v = os.getenv(name)
+    return v if (v is not None and v != "") else default
 
-PG_HOST   = os.getenv("PG_HOST", "localhost")
-PG_PORT   = int(os.getenv("PG_PORT", "5432"))
-PG_USER   = os.getenv("PG_USER", "reader")
-PG_PASSWD = os.getenv("PG_PASSWORD", "reader_pw")
-PG_DB     = os.getenv("PG_DB", "yelp_gold")
-PG_SCHEMA = os.getenv("PG_SCHEMA", "yelp_gold")
+def env_int(name, default):
+    v = os.getenv(name)
+    try:
+        return int(v) if (v is not None and v != "") else int(default)
+    except Exception:
+        return int(default)
 
-TARGET_DS_NAME = os.getenv("MB_DS_NAME", "yelp_gold")
-COMPOSE = os.getenv("COMPOSE_BIN", "docker compose")
-MB_SERVICE = os.getenv("MB_SERVICE", "metabase")
-PG_SERVICE = os.getenv("PG_SERVICE", "postgres")
+MB_BASE   = env("MB_BASE", "http://localhost:3000").rstrip("/")
+MB_EMAIL  = env("MB_EMAIL", "admin@yelp.local")
+MB_PASS   = env("MB_PASS",  "Metabase!2025")
+MB_SITE   = env("MB_SITE_NAME", "Yelp BI")
+
+PG_HOST   = env("PG_HOST", "localhost")
+PG_PORT   = env_int("PG_PORT", 5432)
+PG_USER   = env("PG_USER", "reader")
+PG_PASSWD = env("PG_PASSWORD", "reader_pw")
+PG_DB     = env("PG_DB", "yelp_gold")
+PG_SCHEMA = env("PG_SCHEMA", "yelp_gold")
+
+TARGET_DS_NAME = env("MB_DS_NAME", "yelp_gold")
+COMPOSE = env("COMPOSE_BIN", "docker compose")
+MB_SERVICE = env("MB_SERVICE", "metabase")
+PG_SERVICE = env("PG_SERVICE", "postgres")
 
 # From Metabase container's perspective, "localhost" would be itself.
 # If user wrote localhost/127.0.0.1 in .env, connect via Compose service name.
