@@ -50,6 +50,8 @@ class OneShotHandler(BaseHTTPRequestHandler):
         return
 
 def run_server_once(session_id: str, target_base: str, cookie_domain: str, port: int = 34567):
+    parsed = urlparse(target_base)
+    host = parsed.hostname or "localhost" 
     handler = OneShotHandler
     handler.session_id = session_id
     handler.target_base = target_base
@@ -58,7 +60,7 @@ def run_server_once(session_id: str, target_base: str, cookie_domain: str, port:
     # 尝试固定端口，失败就用系统随机端口
     for p in (port, 0):
         try:
-            httpd = HTTPServer(("127.0.0.1", p), handler)
+            httpd = HTTPServer((host, p), handler)
             actual_port = httpd.server_address[1]
             break
         except OSError:
@@ -67,7 +69,7 @@ def run_server_once(session_id: str, target_base: str, cookie_domain: str, port:
         print("❌ Failed to bind a local port", file=sys.stderr)
         sys.exit(1)
 
-    url = f"http://127.0.0.1:{actual_port}/"
+    url = f"http://{host}:{actual_port}/"
     print(f"-> Opening browser: {url}")
     try:
         webbrowser.open(url)

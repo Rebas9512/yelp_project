@@ -1,8 +1,9 @@
 # =================== Minimal Metabase + Export Makefile ===================
 SHELL := /bin/bash
 
-# ---- docker compose exec helper (jupyter 容器里跑命令) ----
-JUP_RUN = docker compose exec -T jupyter bash -lc
+# ---- binaries ----
+COMPOSE ?= docker compose
+JUP_RUN = $(COMPOSE) exec -T jupyter bash -lc
 
 # ---- Metabase 基本配置（可被 .env 覆盖）----
 MB_BASE  ?= http://localhost:3000
@@ -20,15 +21,34 @@ NGINX_SERVICE     ?= nginx
 
 # ---- 导出脚本位置 ----
 EXPORT_SCRIPT := scripts/export_pg_yelp_gold.py
-.PHONY: clean down export export-csv export-sql help logs mb-health mb-open mb-refresh ps restart ui up
 
-# 一步登录并打开 Metabase（在宿主机运行，保证本机浏览器能打开）
-ui mb-open:
+.PHONY: clean down export export-csv export-sql help logs logs-% mb-health mb-open mb-refresh ps restart ui up mb-reset-seed fix-compose
+
+# ------------------- 常用一键动作 -------------------
+## ui: 起容器 + 自动登录（打开浏览器）
+ui: up
 	@chmod +x scripts/mb_one_click_login.py
 	@MB_BASE="$(MB_BASE)" MB_EMAIL="$(MB_EMAIL)" MB_PASS="$(MB_PASS)" \
 		python3 scripts/mb_one_click_login.py
 
-# 刷新 Metabase：仅保留 $(PG_SCHEMA) schema，关闭 schema_fallback，并触发元数据同步与字段重扫
+## up: 启动核心服务（Postgres/Metabase/Jupyter/Nginx）
+up:
+	@$(COMPOSE) up -d $(PG_SERVICE) $(METABASE_SERVICE) $(JUPYTER_SERVICE) $(NGINX_SERVICE)
+	@$(COMPOSE) ps
+
+## mb-reset-seed: 重置 Metabase 实例并按 .env 播种（只注册 yelp_gold）
+mb-reset-seed:
+	@MB_BASE="$(MB_BASE)" MB_EMAIL="$(MB_EMAIL)" MB_PASS="$(MB_PASS)" \
+	  PG_HOST="$(PG_HOST)" PG_PORT="$(PG_PORT)" PG_USER="$(PG_USER)" PG_PASSWORD="$(PG_PASSWORD)" PG_DB="$(PG_DB)" PG_SCHEMA="$(PG_SCHEMA)" \
+	  python3 scripts/mb_reset_and_seed.py
+
+## mb-open: 仅自动登录（不重置）
+mb-open:
+	@chmod +x scripts/mb_one_click_login.py
+	@MB_BASE="$(MB_BASE)" MB_EMAIL="$(MB_EMAIL)" MB_PASS="$(MB_PASS)" \
+		python3 scripts/mb_one_click_login.py
+
+## mb-refresh: 只保留 $(PG_SCHEMA) schema，关闭 schema_fallback，并触发同步/重扫
 mb-refresh:
 	@set -euo pipefail; \
 	command -v jq >/dev/null 2>&1 || { echo "❌ 需要安装 jq"; exit 1; }; \
@@ -53,17 +73,17 @@ mb-refresh:
 	curl -sS -X POST -H "X-Metabase-Session: $$SID" "$(MB_BASE)/api/database/$$DB_ID/rescan_values" >/dev/null; \
 	echo "✅ Metabase refreshed (db=$$DB_ID, schema=$(PG_SCHEMA))"
 
-# 最小健康检查
+## mb-health: 最小健康检查
 mb-health:
 	@set -euo pipefail; \
 	echo "==> Check Metabase health"; \
 	curl -sS "$(MB_BASE)/api/health" | jq -r .status | grep -q '^ok$$' \
 	  && echo "Metabase OK" || (echo "Metabase not healthy"; exit 1)
 
-# ------------------- 一步式导出（CSV + SQL + 可选刷新MB） -------------------
+# ------------------- 导出（CSV / SQL） -------------------
 export:
 	@echo "==> Ensure containers are up"
-	@docker compose up -d $(PG_SERVICE) $(JUPYTER_SERVICE) minio >/dev/null
+	@$(COMPOSE) up -d $(PG_SERVICE) $(JUPYTER_SERVICE) minio >/dev/null
 	@echo "==> Refresh Metabase then export CSV + SQL"
 	@$(JUP_RUN) ' \
 	  MB_BASE_RAW="$(MB_BASE)"; \
@@ -77,7 +97,7 @@ export:
 	'
 
 export-csv:
-	@docker compose up -d $(PG_SERVICE) $(JUPYTER_SERVICE) >/dev/null
+	@$(COMPOSE) up -d $(PG_SERVICE) $(JUPYTER_SERVICE) >/dev/null
 	@echo "==> Export CSV only"
 	@$(JUP_RUN) ' \
 	  PG_HOST="yelp_pg" PG_PORT="5432" PG_USER="reader" PG_PASSWORD="reader_pw" PG_DB="yelp_gold" PG_SCHEMA="$(PG_SCHEMA)" \
@@ -85,44 +105,44 @@ export-csv:
 	'
 
 export-sql:
-	@docker compose up -d $(PG_SERVICE) $(JUPYTER_SERVICE) >/dev/null
+	@$(COMPOSE) up -d $(PG_SERVICE) $(JUPYTER_SERVICE) >/dev/null
 	@echo "==> Export SQL only"
 	@$(JUP_RUN) ' \
 	  PG_HOST="yelp_pg" PG_PORT="5432" PG_USER="reader" PG_PASSWORD="reader_pw" PG_DB="yelp_gold" PG_SCHEMA="$(PG_SCHEMA)" \
 	  python $(EXPORT_SCRIPT) --sql \
 	'
-# ========================================================================
 
-# ------------------- Convenience targets -------------------
-## up: 启动核心服务（Postgres/Metabase/Jupyter/Nginx）
-up:
-	@docker compose up -d $(PG_SERVICE) $(METABASE_SERVICE) $(JUPYTER_SERVICE) $(NGINX_SERVICE)
-	@docker compose ps
-
+# ------------------- 其他 -------------------
 ## down: 停止并移除容器（不删数据卷）
 down:
-	@docker compose down
+	@$(COMPOSE) down
 
 ## restart: 重启核心服务
 restart: down up
 
 ## ps: 查看容器状态
 ps:
-	@docker compose ps
+	@$(COMPOSE) ps
 
 ## logs: 查看所有服务日志（最新 200 行）
 logs:
-	@docker compose logs --no-color --tail=200
+	@$(COMPOSE) logs --no-color --tail=200
 
 ## logs-%: 查看指定服务日志（如：make logs-metabase）
 logs-%:
-	@docker compose logs --no-color --tail=200 $*
+	@$(COMPOSE) logs --no-color --tail=200 $*
 
 ## clean: 清理缓存/临时文件
 clean:
 	@find . -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
 	@find . -name "*.pyc" -delete 2>/dev/null || true
 	@echo "✅ cleaned."
+
+## fix-compose: 清除 override 的 legacy version: 警告
+fix-compose:
+	@cp docker-compose.override.yml docker-compose.override.yml.bak 2>/dev/null || true
+	@sed -i '' '/^version:/d' docker-compose.override.yml || true
+	@echo '✅ docker-compose.override.yml: removed legacy "version:" (backup kept if existed)'
 
 ## help: 显示常用命令帮助
 help:
