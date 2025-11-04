@@ -15,12 +15,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Set up Python (for any small host-side helpers)
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install Python deps
+      - name: Install Python deps (host)
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt || true; fi
@@ -54,11 +54,15 @@ jobs:
           echo "❌ Metabase not healthy in time" >&2
           exit 1
 
+      - name: Prepare writable exports dir in jupyter container
+        run: |
+          docker compose exec -u root -T jupyter bash -lc 'mkdir -p /work/exports && chmod -R 777 /work/exports && ls -ld /work/exports'
+
       - name: Quick export test (CSV only)
         run: |
           docker compose exec -T jupyter bash -lc '
             export PG_HOST=yelp_pg PG_PORT=5432 PG_USER=reader PG_PASSWORD=reader_pw PG_DB=yelp_gold PG_SCHEMA=yelp_gold
-            export MB_BASE=http://metabase:3000 MB_EMAIL=admin@yelp.local MB_PASS=Metabase!2025
+            export MB_BASE=http://metabase:3000 MB_EMAIL=admin@yelp.local MB_PASS='"'"'Metabase!2025'"'"'
             python scripts/export_pg_yelp_gold.py --csv --no-ddl
           '
 
