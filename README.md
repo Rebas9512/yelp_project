@@ -71,13 +71,21 @@ Yelp project/
 
 ## 5️⃣ Makefile Quick Reference
 
-| Command             | Description |
-| ------------------- | ------------ |
-| `make mb-refresh`   | Re-sync Metabase schema to `yelp_gold` |
-| `make ui`           | One-click local Metabase login (auto-opens browser) |
-| `make export`       | Run full CSV + SQL export |
-| `make export-csv`   | Only export CSVs |
-| `make export-sql`   | Only export SQL dumps |
+| Command              | Description |
+| -------------------- | ------------ |
+| `make up`            | Start all core containers (Postgres, Metabase, Jupyter, Nginx) |
+| `make down`          | Stop and remove all running containers (volumes kept) |
+| `make restart`       | Restart all core services |
+| `make ps`            | Show running container status |
+| `make logs`          | View recent logs from all services (last 200 lines) |
+| `make logs-metabase` | View logs for a specific service (e.g. Metabase) |
+| `make clean`         | Remove cache and compiled files (`__pycache__`, `*.pyc`) |
+| `make help`          | Display all available Make targets with short descriptions |
+| `make mb-refresh`    | Re-sync Metabase schema to `yelp_gold` |
+| `make ui`            | One-click local Metabase login (auto-opens browser) |
+| `make export`        | Run full CSV + SQL export (includes schema refresh) |
+| `make export-csv`    | Export only CSVs |
+| `make export-sql`    | Export only SQL dumps |
 
 ---
 
