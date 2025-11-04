@@ -25,8 +25,8 @@ It’s designed for **local analytics, BI visualization, and data export reprodu
 | ------------------- | ---------------- | ------ |
 | `dim_business`      | ✅ Loaded         | Includes business metadata |
 | `dim_photo_files`   | ✅ Loaded         | Linked with image URLs (served via Nginx) |
-| `dim_user`          | ✅ Loaded         | 1.98M users indexed |
-| `mart_city_month`   | ✅ Loaded + View  | 103K rows (2005–2022) |
+| `dim_user`          | ✅ Loaded         | 1.98 M users indexed |
+| `mart_city_month`   | ✅ Loaded + View  | 103 K rows (2005–2022) |
 | `mart_photo_counts` | ✅ Loaded         | Label frequency summary |
 | Views               | ✅ Created        | `vw_city_month_latest`, `vw_city_photo_top10`, `vw_user_review_buckets` |
 | Metabase Connection | ✅ Verified       | Schema locked to `yelp_gold` |
@@ -36,17 +36,17 @@ It’s designed for **local analytics, BI visualization, and data export reprodu
 
 ## 3️⃣ Lightweight Replication / Data Access
 
-If you **don’t want to clone or run containers**, you can still use this project’s exported data:
+If you **don’t want to run containers**, you can still use this project’s exported data:
 
-- **CSV exports** (ready to import to Excel / DuckDB / pandas)
-- **SQL dumps** (schema + data for direct restore)
+- **CSV exports** → ready to load into Excel / DuckDB / pandas  
+- **SQL dumps** → schema + data for direct restore
 
-These are available in `exports/` and automatically generated via GitHub Actions.  
-Each CI run uploads the latest dump as an **artifact** or Release asset.
+These are found under `exports/` and also automatically built by GitHub Actions CI.  
+Each CI run uploads the latest dump as an **artifact** or **release asset**.
 
 ---
 
-## 4️⃣ Project Directory (Post-Trimmed Layout)
+## 4️⃣ Project Layout (Post-Trimmed)
 
 ```
 Yelp project/
@@ -86,57 +86,72 @@ Yelp project/
 | Component | Purpose | Notes |
 | ---------- | -------- | ----- |
 | **Metabase** | Interactive BI tool | Auto-provisioned, schema locked |
-| **Nginx** | Static image reverse proxy | Allows photo previews within BI cards |
+| **Nginx** | Static image proxy | Enables photo previews inside dashboards |
 | **PostgreSQL** | Data backend | Populated from Parquet gold layer |
 
-This combination gives analysts **end-to-end visual context** — from tabular stats to images — without leaving the BI dashboard.
+This combo provides analysts with **end-to-end visual context** — from tabular stats to images — without leaving the BI dashboard.
 
 ---
 
 ## 7️⃣ Minimal CI Workflow
 
-The repository includes a preconfigured **GitHub Actions CI** (`.github/workflows/ci.yml`) that:
+The repo includes `.github/workflows/ci.yml`, which:
 
 1. Spins up `postgres`, `metabase`, and `jupyter` containers.  
-2. Waits for health OK.  
+2. Waits for health checks.  
 3. Runs `scripts/export_pg_yelp_gold.py --csv`.  
 4. Uploads `exports/` as build artifacts.
 
-This guarantees **data export reproducibility** on every commit.
+This ensures **data export reproducibility** on every commit.
 
 ---
 
-## 8️⃣ How to Use (Local Quickstart)
+## 8️⃣ 🧩 How to Use (Full Local Clone Setup)
 
+### 🔹 Step 1 — Clone the Repository
 ```bash
-# Start environment
+git clone https://github.com/Rebas9512/yelp_project.git
+cd yelp_project
+```
+
+### 🔹 Step 2 — Start All Containers
+```bash
 docker compose up -d
+```
 
-# Refresh Metabase schema (auto login)
+### 🔹 Step 3 — Refresh Metabase & Open UI
+```bash
 make mb-refresh && make ui
+```
 
-# Export CSV/SQL snapshots
+This command will:
+- Log into Metabase (`admin@yelp.local` / `Metabase!2025`)
+- Auto-open your browser at `http://localhost:3000`
+
+### 🔹 Step 4 — Export CSV / SQL Snapshots
+```bash
 make export
 ```
 
-Then open:
+Then access:
 ```
-http://localhost:3000  → Metabase BI
-http://localhost:8080  → Nginx (image links)
+http://localhost:3000   →  Metabase BI
+http://localhost:8080   →  Nginx (image links)
 ```
 
 ---
 
 ## 9️⃣ Next Steps
 
-* ✅ **Completed:** gold layer ingestion, Metabase configuration, CI health pipeline  
-* 💡 **Next:** 
+* ✅ **Completed:** gold-layer ingestion, Metabase config, CI health pipeline  
+* 💡 **Next:**
   * Publish dashboards directly in Metabase  
   * Add lightweight dashboard seed for demos  
   * Integrate DuckDB connector for local analysis  
 
 ---
 
+**Repository:** [github.com/Rebas9512/yelp_project](https://github.com/Rebas9512/yelp_project)  
 **Author:** Yixin Wei  
 **Last Updated:** 2025-11-03  
-**Notes:** This version provides both **containerized BI integration** and **portable exports** for quick replication.
+**Notes:** Provides both **containerized BI integration** and **portable exports** for quick replication.
