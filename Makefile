@@ -20,8 +20,7 @@ NGINX_SERVICE     ?= nginx
 
 # ---- 导出脚本位置 ----
 EXPORT_SCRIPT := scripts/export_pg_yelp_gold.py
-
-.PHONY: ui mb-open mb-refresh mb-health export export-csv export-sql
+.PHONY: clean down export export-csv export-sql help logs mb-health mb-open mb-refresh ps restart ui up
 
 # 一步登录并打开 Metabase（在宿主机运行，保证本机浏览器能打开）
 ui mb-open:
@@ -93,3 +92,41 @@ export-sql:
 	  python $(EXPORT_SCRIPT) --sql \
 	'
 # ========================================================================
+
+# ------------------- Convenience targets -------------------
+## up: 启动核心服务（Postgres/Metabase/Jupyter/Nginx）
+up:
+	@docker compose up -d $(PG_SERVICE) $(METABASE_SERVICE) $(JUPYTER_SERVICE) $(NGINX_SERVICE)
+	@docker compose ps
+
+## down: 停止并移除容器（不删数据卷）
+down:
+	@docker compose down
+
+## restart: 重启核心服务
+restart: down up
+
+## ps: 查看容器状态
+ps:
+	@docker compose ps
+
+## logs: 查看所有服务日志（最新 200 行）
+logs:
+	@docker compose logs --no-color --tail=200
+
+## logs-%: 查看指定服务日志（如：make logs-metabase）
+logs-%:
+	@docker compose logs --no-color --tail=200 $*
+
+## clean: 清理缓存/临时文件
+clean:
+	@find . -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
+	@find . -name "*.pyc" -delete 2>/dev/null || true
+	@echo "✅ cleaned."
+
+## help: 显示常用命令帮助
+help:
+	@echo "Available targets:"
+	@grep -E '^[a-zA-Z0-9_.%-]+:|^## ' Makefile | \
+		awk 'BEGIN{FS=":|##"} /^[a-zA-Z0-9_.%-]+:/{t=$$1} /^##/{gsub(/^[ \t]+|[ \t]+$$/,"",$$2); if(t!="") {printf "  \033[36m%-18s\033[0m %s\n", t, $$2; t=""}}'
+# -----------------------------------------------------------
