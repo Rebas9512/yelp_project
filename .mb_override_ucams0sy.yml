@@ -1,0 +1,11 @@
+services:
+  metabase:
+    environment:
+      MB_DB_FILE: /metabase.db/metabase.db
+      MB_PLUGINS_DIR: /plugins
+    volumes:
+      - mb_app_gm9xsedg:/metabase.db
+      - mb_plugins_r7h3zijq:/plugins
+volumes:
+  mb_app_gm9xsedg: {}
+  mb_plugins_r7h3zijq: {}

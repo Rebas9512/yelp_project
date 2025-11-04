@@ -1,0 +1,11 @@
+mart_city_month:
+  grain: ["state","city","review_month"]
+  columns:
+    reviews: "count(*)"
+    active_businesses: "count(distinct business_id)"
+    active_users: "count(distinct user_id)"
+    avg_stars: "avg(stars)"
+mart_photo_counts:
+  grain: ["state","city","label"]
+  columns:
+    photos: "count(*)"

@@ -1,0 +1,12 @@
+.git
+.gitignore
+.gitattributes
+.github
+.venv
+__pycache__
+*.pyc
+.DS_Store
+Yelp JSON
+photos_thumbs
+exports
+notebooks
